@@ -12,27 +12,22 @@ import { APIService } from '../api.service';
 export class WorldMapComponent implements OnInit, AfterViewInit {
 
   @ViewChildren("path") paths!: QueryList<ElementRef>;
-  
-  constructor(private service: APIService){
-
-  }
-
   SelectedPath: string = "";
 
-ngAfterViewInit(): void {
- 
+  constructor(
+    private service: APIService
+  ) { }
+
+  ngOnInit(): void {
+  }
+
+  ngAfterViewInit(): void {
     this.paths.forEach(path => {
       path.nativeElement.addEventListener('click', () => {
-        
         this.SelectedPath = path.nativeElement.id;
-        
         this.service.setCountryCode(this.SelectedPath)
       });
     });
-    
-}
+  }
 
-ngOnInit(): void {
-  
-}
 }

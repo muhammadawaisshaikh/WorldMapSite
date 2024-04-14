@@ -1,61 +1,31 @@
 import { Injectable } from '@angular/core';
-import { Geonames, Country } from './geonames';
-import { from } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Geonames } from './geonames';
+import { Observable, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class APIService {
+  private mycountrycode: string = "CA";
 
-   
-   public static returned: Geonames = []
-
-   public static mycountry: string = ""
-
-   public static mycountrycode: string = ""
-
-
-  constructor(public http: HttpClient) {
-     this.setCountryCode("CA")
-   }
-
-   setCountryCode(countrycode: string){
-
-      APIService.mycountrycode = countrycode;
-   }
-
-async callApi() {
-
-  const url = `http://api.geonames.org/countryInfoJSON?&country=${APIService.mycountrycode}&username=kirbyniko`  
-
-  return this.http.get(url)
-
+  constructor(private http: HttpClient) {
   }
 
-
-  getGeonames() : Geonames {
-    this.callApi().then(
-      (data:(any)) => {
-        console.log(data)
-        data.subscribe((res: any) => {
-          APIService.returned = res.geonames[0];
-        
-        })
-        
-     //   this.country = data[0].capital
-      }
-
-    );
-    return(APIService.returned)
+  setCountryCode(countrycode: string): void {
+    this.mycountrycode = countrycode;
   }
 
-  getCountry(): string{
-    this.callApi().then((response: any) =>
-      {
-        APIService.returned = response;
-      }
-  );
-  return APIService.returned[0].capital
+  callApi(): Observable<any> {
+    const url = `http://api.geonames.org/countryInfoJSON?&country=${this.mycountrycode}&username=kirbyniko`;
+    return this.http.get(url);
+  }
+
+  getGeonames(): Observable<Geonames> {
+    return this.callApi().pipe(map((res: any) => res.geonames[0]));
+  }
+
+  getCountry(): Observable<string> {
+    return this.callApi().pipe(map((res: any) => res.geonames[0].capital));
   }
 }

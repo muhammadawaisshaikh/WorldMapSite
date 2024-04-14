@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { APIService } from '../api.service';
+import { SharedService } from '../services/shared/shared.service';
 
 @Component({
   selector: 'app-country-info',
@@ -11,9 +12,26 @@ import { APIService } from '../api.service';
 export class CountryInfoComponent implements OnInit {
   geonames: string | undefined;
 
-  constructor(public service: APIService) {}
+  constructor(
+    public service: APIService,
+    private sharedSrv: SharedService
+  ) {}
 
   ngOnInit(): void {
+    this.startListenShared();
+    this.getCountryInfo();
+  }
+
+  startListenShared() {
+    this.sharedSrv.selectMapItemFlag.subscribe((res: boolean) => {
+      if (res == true) {
+        this.getCountryInfo();
+        this.sharedSrv.setMapItemFlag(false);
+      }
+    })
+  }
+
+  getCountryInfo() {
     this.service.getCountry().subscribe(res => {
       this.geonames = res;
       console.log(res, this.geonames);

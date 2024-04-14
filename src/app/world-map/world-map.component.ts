@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { APIService } from '../api.service';
+import { SharedService } from '../services/shared/shared.service';
 
 @Component({
   selector: 'app-world-map',
@@ -15,7 +16,8 @@ export class WorldMapComponent implements OnInit, AfterViewInit {
   SelectedPath: string = "";
 
   constructor(
-    private service: APIService
+    private service: APIService,
+    private sharedSrv: SharedService
   ) { }
 
   ngOnInit(): void {
@@ -25,7 +27,11 @@ export class WorldMapComponent implements OnInit, AfterViewInit {
     this.paths.forEach(path => {
       path.nativeElement.addEventListener('click', () => {
         this.SelectedPath = path.nativeElement.id;
-        this.service.setCountryCode(this.SelectedPath)
+        this.service.setCountryCode(this.SelectedPath);
+
+        console.log(this.SelectedPath);
+
+        this.sharedSrv.setMapItemFlag(true);
       });
     });
   }

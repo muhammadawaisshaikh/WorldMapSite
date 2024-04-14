@@ -10,7 +10,7 @@ import { SharedService } from '../services/shared/shared.service';
   styleUrls: ['./country-info.component.css']
 })
 export class CountryInfoComponent implements OnInit {
-  geonames: string | undefined;
+  geoname: any | undefined;
 
   constructor(
     public service: APIService,
@@ -33,8 +33,8 @@ export class CountryInfoComponent implements OnInit {
 
   getCountryInfo() {
     this.service.getCountry().subscribe(res => {
-      this.geonames = res;
-      console.log(res, this.geonames);
+      this.geoname = res;
+      console.log(res, this.geoname);
     });
   }
 }

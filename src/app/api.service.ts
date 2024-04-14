@@ -26,6 +26,6 @@ export class APIService {
   }
 
   getCountry(): Observable<string> {
-    return this.callApi().pipe(map((res: any) => res.geonames[0].capital));
+    return this.callApi().pipe(map((res: any) => res.geonames[0]));
   }
 }

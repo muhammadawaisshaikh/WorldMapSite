@@ -1,1 +1,19 @@
-<p> {{ this.geonames }}</p>
+<div class="container-fluid my-5">
+    <div class="row">
+        <div class="col">
+            <div class="card p-3"> <strong>Capital:</strong> {{ this.geoname.capital }}</div>
+        </div>
+        <div class="col">
+            <div class="card p-3"> <strong>Currency Code:</strong> {{ this.geoname.currencyCode }}</div>
+        </div>
+        <div class="col">
+            <div class="card p-3"> <strong>Population:</strong> {{ this.geoname.population }}</div>
+        </div>
+        <div class="col">
+            <div class="card p-3"> <strong>Country Name:</strong> {{ this.geoname.countryName }}</div>
+        </div>
+        <div class="col">
+            <div class="card p-3"> <strong>Continent Name:</strong> {{ this.geoname.continentName }}</div>
+        </div>
+    </div>
+</div>
